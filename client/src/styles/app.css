@@ -1,0 +1,5 @@
+  .MainContainer {
+    Background-color: var(--block-font);
+    color: var(--block-background);
+    font-size: 25px; 
+  } 

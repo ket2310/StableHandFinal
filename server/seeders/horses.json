@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Sky",
+        "lessonLimit": 3,
+        "lessonCount": 0
+    },
+    {
+        "name": "Quincy",
+        "lessonLimit": 3,
+        "lessonCount": 0
+    },
+    {
+        "name": "Norri",
+        "lessonLimit": 3,
+        "lessonCount": 0
+    },
+    {
+        "name": "Spirit",
+        "lessonLimit": 3,
+        "lessonCount": 0
+    }
+]

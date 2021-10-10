@@ -1,0 +1,69 @@
+:root {
+  --block-background: rgb(147, 209, 189);
+  --block-font: rgb(6, 53, 35);
+
+}
+  
+header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1%;
+      Background-color: var(--block-font);
+      color: var(--block-background);
+}
+
+/* main {
+   padding: 32px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;   
+} */
+
+h1 {
+  text-align: center;
+  padding: 1%;
+  width: 400px;
+  font-size: 200%;
+  background-color: var(--block-background);
+  color: var(--block-font);
+}
+
+h2 {
+  
+  font-size: 250%;
+  background-color: var(--block-background);
+  color: var(--block-font);
+}
+
+nav {
+  width: 500px;
+  
+}
+
+
+nav a:hover {
+  color: #fff;
+}
+
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between;
+  flex-wrap: wrap; */
+  font-size: 150%;
+}
+
+nav li {
+  display: inline-flex;
+  justify-content: center;
+}
+nav a {
+  color: var(--block-background);
+  font-size: large;
+  font-weight: bold;
+  text-decoration: none;
+}
+

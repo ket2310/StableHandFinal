@@ -1,0 +1,54 @@
+:root {
+    --block-background: rgb(147, 209, 189);
+    --block-font: rgb(6, 53, 35);
+  
+  }
+    
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;    
+    background-attachment: rgb(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    position: relative;
+    padding: 32px;
+    width: 100%;
+    color: var(--block-font);
+    max-width: 640px;   
+    height: 100%;
+    max-height: 710px;
+    background-color: var(--block-background);
+}
+
+.popup-content .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.lessonForm {
+    flex-direction: column;
+    align-items: flex-start;
+}
+input {
+    width: 200px;
+}
+
+select{
+    width: 300px;
+}
+
+#bookTime {
+    width: 100px;
+}
+label {
+    flex-direction: column;
+}
