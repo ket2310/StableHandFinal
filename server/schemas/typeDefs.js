@@ -35,10 +35,8 @@ const typeDefs = gql`
     }    
 
     input HorseData {
-        _id: ID!
+        _id: ID
         name: String
-        lessonCount: Int
-        lessonLimit: Int  
     }
 
     type Instructor {
@@ -48,7 +46,7 @@ const typeDefs = gql`
     }
 
     input InstructorData {
-        _id: ID!
+        _id: ID
         firstName: String
         lastName: String
     }
@@ -64,8 +62,7 @@ const typeDefs = gql`
         _id: ID
         firstName: String
         lastName: String
-        phone: String
-        email: String
+       
     }
     
     type Query {
@@ -117,7 +114,10 @@ const typeDefs = gql`
             lessonDate: date!
             startTime: String!,
             endTime: String!,
-            duration: Int!            
+            duration: Int!,
+            rider: RiderData,
+            instructor: InstructorData,
+            horse: HorseData
         ): Lesson
         
         

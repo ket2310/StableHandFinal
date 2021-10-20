@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/lesson.css"
 import findDateOfLesson from "../utils/findDateOfLesson";
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { QUERY_HORSES, QUERY_RIDERS, QUERY_INSTRUCTORS } from "../utils/queries";
-import { BOOK_LESSON } from "../utils/mutations";
+import { BOOK_LESSON, ADD_HORSE_TO_LESSON, ADD_RIDER_TO_LESSON
+    , ADD_INSTRUCTOR_TO_LESSON  } from "../utils/mutations";
 
 const moment = require('moment');
+var idRider = null;
+var idInstructor = null;
+var idHorse = null;
 
 function LessonForm(props) {
     const weekOfDate = props.weekOf.format("MM/DD/YYYY");
@@ -28,7 +32,11 @@ function LessonForm(props) {
     const instructors = idata?.instructors || [];
     const horses = hdata?.horses || [];
 
-    const [bookLesson, { error }] = useMutation(BOOK_LESSON);
+    const [bookLesson, { errorBook }] = useMutation(BOOK_LESSON);
+    const [addRidertoLesson, { errRider }] = useMutation(ADD_RIDER_TO_LESSON);
+    const [addInstructortoLesson, { errInstructor }] = useMutation(ADD_INSTRUCTOR_TO_LESSON);
+    const [addHorsetoLesson, { errHorse }] = useMutation(ADD_HORSE_TO_LESSON);
+
     const handleInputChange = (e) => {
         // Getting the value and name of the input which triggered the change
         const { name, value } = e.target;
@@ -36,28 +44,30 @@ function LessonForm(props) {
 
     const handleRiderChange = (e) => {
         setRider(e.target.value)
-        console.log(rider)
-
+        idRider = e.target.value;
+        console.log(idRider)
     };
 
     const handleInstructorChange = (e) => {
         setInsteructor(e.target.value)
-        console.log(e.target.value)
+        idInstructor = e.target.value;
+        console.log(idInstructor)
     };
 
     const handleHorseChange = (e) => {
         setHorse(e.target.value);
-        console.log(e.target.value)
+        idHorse = e.target.value;
+        console.log(idHorse)
     };
-
+ 
     const handleFormSubmit = async () => {
         console.log(riders)
         console.log(instructors)
         console.log(horses)
 
-        const objRider = riders.find((rider) => rider._id === rider);
-        const objInstructor = instructors.find((instructor) => instructor._id === instructor);
-        const objHorse = horses.find((horse) => horse._id === horse);
+        const objRider = riders.find(rider => rider._id === idRider);
+        const objInstructor = instructors.find(instructor => instructor._id === idInstructor);
+        const objHorse = horses.find(horse => horse._id === idHorse);
 
         console.log(objRider)
         console.log(objInstructor)
@@ -65,22 +75,45 @@ function LessonForm(props) {
 
 
         try {
-            const { data } = await bookLesson({
+            const {data} = await bookLesson({
                 variables: {
-                    lessonDate, startTime, endTime, duration,
-                    rider: { ...objRider },
-                    instructor: { ...objInstructor },
-                    horse: { ...objHorse },
+                   lessonDate: lessonDate, 
+                   startTime: startTime,
+                   endTime: endTime,
+                   duration: duration,
+                   rider: { _id: objRider._id, firstName: objRider.firstNme, lastName: objRider.lastName},
+                   instructor: { _id: objInstructor._id, firstName: objInstructor.firstName, lastName: objInstructor.lastName},
+                   horse: {_id: objHorse._id, name: objHorse.name}
+
                 },
             });
-
+            // console.log(data)
+            // if (data){
+            //     console.log("SOMEBODY HELP MEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!")
+            //     const {riderData } = await addRidertoLesson({
+            //         variables:{
+            //             rider: {...objRider}
+            //         }
+            //     });
+            //     const {instructorData } = await addInstructortoLesson({
+            //         variables:{
+            //             instructor: {...objInstructor}
+            //         }
+            //     });
+            //     const { horseData } = await addHorsetoLesson({
+            //         variables: {
+            //             horse: {...objHorse}
+            //         }
+            //     })
+            // }
         } catch (err) {
             console.error(err);
         }
     }
 
-    props.setTrigger(false)
-
+    useEffect(() => {
+        props.setTrigger(false)
+    }, [])
     return (props.trigger) ? (
         <div className="popup">
             <div className="popup-content">
