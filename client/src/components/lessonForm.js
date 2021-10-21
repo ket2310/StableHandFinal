@@ -4,8 +4,7 @@ import findDateOfLesson from "../utils/findDateOfLesson";
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { QUERY_HORSES, QUERY_RIDERS, QUERY_INSTRUCTORS } from "../utils/queries";
-import { BOOK_LESSON, ADD_HORSE_TO_LESSON, ADD_RIDER_TO_LESSON
-    , ADD_INSTRUCTOR_TO_LESSON  } from "../utils/mutations";
+import { BOOK_LESSON } from "../utils/mutations";
 
 const moment = require('moment');
 var idRider = null;
@@ -14,8 +13,13 @@ var idHorse = null;
 
 function LessonForm(props) {
     const weekOfDate = props.weekOf.format("MM/DD/YYYY");
-    const lessonDay = props.lessonDay;
-    const bookedDate = findDateOfLesson(lessonDay, weekOfDate)
+    const lessonDay = props.lessonDay;    
+    // console.log(props.lessonHour)
+    // console.log(weekOfDate)
+    console.log(lessonDay)
+    const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
+    console.log(bookedDate)
+    
     const [lessonDate, setLessonDate] = useState(moment())
     const [startTime, setStartTime] = useState('9:00');
     const [endTime, setEndTime] = useState('10:00');
@@ -33,9 +37,6 @@ function LessonForm(props) {
     const horses = hdata?.horses || [];
 
     const [bookLesson, { errorBook }] = useMutation(BOOK_LESSON);
-    const [addRidertoLesson, { errRider }] = useMutation(ADD_RIDER_TO_LESSON);
-    const [addInstructortoLesson, { errInstructor }] = useMutation(ADD_INSTRUCTOR_TO_LESSON);
-    const [addHorsetoLesson, { errHorse }] = useMutation(ADD_HORSE_TO_LESSON);
 
     const handleInputChange = (e) => {
         // Getting the value and name of the input which triggered the change
@@ -45,34 +46,22 @@ function LessonForm(props) {
     const handleRiderChange = (e) => {
         setRider(e.target.value)
         idRider = e.target.value;
-        console.log(idRider)
     };
 
     const handleInstructorChange = (e) => {
         setInsteructor(e.target.value)
         idInstructor = e.target.value;
-        console.log(idInstructor)
     };
 
     const handleHorseChange = (e) => {
         setHorse(e.target.value);
         idHorse = e.target.value;
-        console.log(idHorse)
     };
  
     const handleFormSubmit = async () => {
-        console.log(riders)
-        console.log(instructors)
-        console.log(horses)
-
         const objRider = riders.find(rider => rider._id === idRider);
         const objInstructor = instructors.find(instructor => instructor._id === idInstructor);
         const objHorse = horses.find(horse => horse._id === idHorse);
-
-        console.log(objRider)
-        console.log(objInstructor)
-        console.log(objHorse)
-
 
         try {
             const {data} = await bookLesson({
@@ -87,25 +76,6 @@ function LessonForm(props) {
 
                 },
             });
-            // console.log(data)
-            // if (data){
-            //     console.log("SOMEBODY HELP MEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!")
-            //     const {riderData } = await addRidertoLesson({
-            //         variables:{
-            //             rider: {...objRider}
-            //         }
-            //     });
-            //     const {instructorData } = await addInstructortoLesson({
-            //         variables:{
-            //             instructor: {...objInstructor}
-            //         }
-            //     });
-            //     const { horseData } = await addHorsetoLesson({
-            //         variables: {
-            //             horse: {...objHorse}
-            //         }
-            //     })
-            // }
         } catch (err) {
             console.error(err);
         }
