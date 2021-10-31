@@ -2,7 +2,7 @@ const moment = require('moment');
 
 const findDateOfLesson = (day, date) => {
     let newDay = null;
-    console.log(day)
+
     switch (day) {
         case "Tu":
             newDay = moment(date, "MM/DD/YYYY").add(0, "d");

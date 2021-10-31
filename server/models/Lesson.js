@@ -13,13 +13,13 @@ const lessonSchema = new Schema(
             type: String,
             required: true,
         },
-        endTime: {
-            type: String,
-            required: true,
-        },
         duration: {
             type: Number,
             required: true,
+        },
+        timeSlot: {
+            type: String,
+            required: true
         },
         rider:   {
             type: Schema.Types.ObjectId,

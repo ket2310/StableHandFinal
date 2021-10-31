@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { QUERY_HORSES, QUERY_RIDERS, QUERY_INSTRUCTORS } from "../utils/queries";
 import { BOOK_LESSON } from "../utils/mutations";
+import convertHour from "../utils/convertHour";
 
 const moment = require('moment');
 var idRider = null;
@@ -13,21 +14,17 @@ var idHorse = null;
 
 function LessonForm(props) {
     const weekOfDate = props.weekOf.format("MM/DD/YYYY");
-    const lessonDay = props.lessonDay;    
-    // console.log(props.lessonHour)
+    const lessonDay = props.lessonDay;
     // console.log(weekOfDate)
-    console.log(lessonDay)
-    const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
-    console.log(bookedDate)
-    
-    const [lessonDate, setLessonDate] = useState(moment())
-    const [startTime, setStartTime] = useState('9:00');
-    const [endTime, setEndTime] = useState('10:00');
-    const [duration, setDuration] = useState(1);
-    const [rider, setRider] = useState('')
-    const [instructor, setInsteructor] = useState('')
-    const [horse, setHorse] = useState('')
 
+    const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
+    const timeSlot = props.timeSlot + bookedDate.replace(/\//g,"");
+    console.log(timeSlot)
+    console.log(props.lessonHour)
+    const startTime = props.lessonHour;
+    console.log(startTime)
+
+    let duration = 1;
     const { loading: loadingRiders, data: rdata } = useQuery(QUERY_RIDERS);
     const { loading: loadingInstructors, data: idata } = useQuery(QUERY_INSTRUCTORS)
     const { loading: loadintHorses, data: hdata } = useQuery(QUERY_HORSES)
@@ -38,52 +35,53 @@ function LessonForm(props) {
 
     const [bookLesson, { errorBook }] = useMutation(BOOK_LESSON);
 
+    const handleDuration = (e) => {
+        e.preventDefault();
+        duration = parseInt(e.target.value)
+    }
+
     const handleInputChange = (e) => {
         // Getting the value and name of the input which triggered the change
         const { name, value } = e.target;
     };
 
     const handleRiderChange = (e) => {
-        setRider(e.target.value)
         idRider = e.target.value;
     };
 
     const handleInstructorChange = (e) => {
-        setInsteructor(e.target.value)
         idInstructor = e.target.value;
     };
 
     const handleHorseChange = (e) => {
-        setHorse(e.target.value);
         idHorse = e.target.value;
     };
- 
+
     const handleFormSubmit = async () => {
+
         const objRider = riders.find(rider => rider._id === idRider);
         const objInstructor = instructors.find(instructor => instructor._id === idInstructor);
         const objHorse = horses.find(horse => horse._id === idHorse);
 
         try {
-            const {data} = await bookLesson({
+            const { data } = await bookLesson({
                 variables: {
-                   lessonDate: lessonDate, 
-                   startTime: startTime,
-                   endTime: endTime,
-                   duration: duration,
-                   rider: { _id: objRider._id, firstName: objRider.firstNme, lastName: objRider.lastName},
-                   instructor: { _id: objInstructor._id, firstName: objInstructor.firstName, lastName: objInstructor.lastName},
-                   horse: {_id: objHorse._id, name: objHorse.name}
+                    lessonDate: bookedDate,
+                    startTime: startTime,
+                    duration: duration,
+                    timeSlot: timeSlot,
+                    rider: { _id: objRider._id, firstName: objRider.firstNme, lastName: objRider.lastName },
+                    instructor: { _id: objInstructor._id, firstName: objInstructor.firstName, lastName: objInstructor.lastName },
+                    horse: { _id: objHorse._id, name: objHorse.name }
 
                 },
             });
+            document.getElementById(props.timeSlot).text = objRider.firstName  + " " +objRider.lastName;
         } catch (err) {
             console.error(err);
         }
-    }
-
-    useEffect(() => {
         props.setTrigger(false)
-    }, [])
+    }
     return (props.trigger) ? (
         <div className="popup">
             <div className="popup-content">
@@ -96,30 +94,32 @@ function LessonForm(props) {
                         <label> Date:</label>&nbsp;
                         <input
                             value={bookedDate}
-                            name="startTime"
+                            name="bookedDate"
                             onChange={handleInputChange}
                             type="text"
                             placeholder="Lesson Date"
                         />
-                        <label> Start:</label>&nbsp;
+                    </div>
+                    <div>
+                        <label> Time:</label>&nbsp;
                         <input
-                            value={startTime}
+                            value={convertHour(startTime)}
                             name="startTime"
                             onChange={handleInputChange}
                             type="text"
                             placeholder="Start Time"
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <label> End:</label>&nbsp;
                         <input
-                            value={endTime}
+                            value={convertHour(endTime)}
                             name="End Time"
                             onChange={handleInputChange}
                             type="text"
-                            placeholder="Last Name"
+                            placeholder="End Time"
                         />
-                    </div>
+                    </div> */}
                     <div>
                         <label>Rider: </label>&nbsp;
                         <select onChange={handleRiderChange}>
@@ -139,16 +139,14 @@ function LessonForm(props) {
                         <select onChange={handleHorseChange}>
                             <option value="Horse"> -- Select a Horse -- </option>
                             {horses && horses.map((horse) =>
-                                (<option value={horse._id} key={horse._id}>{horse.name}</option>))}                        </select>
+                                (<option value={horse._id} key={horse._id}>{horse.name}</option>))}
+                        </select>
                     </div>
                     <div> <label>Duration</label>&nbsp;
-                        <input
-                            value={parseInt(duration)}
-                            name="duration"
-                            onChange={handleInputChange}
-                            type="text"
-                            placeholder="Length"
-                        />
+                        <select onChange={handleDuration}>
+                            <option value="1">1 hour</option>
+                            <option value="30">30 minutes</option>
+                        </select>
                     </div>
                     <button type="button" id="bookTime"
                         onClick={() => handleFormSubmit()}>

@@ -10,6 +10,7 @@ const moment = require('moment');
 export default function WklySchedule() {
     const [weekOf, setWeekOf] = useState( moment().startOf('week').day('Tuesday'));
     const [weekMsg, setWeeOfMessage] = useState("Lesson Schedule for the week of " + weekOf.format("dddd, MMMM Do"))
+    const [timeSlot, setTimeSlot] = useState('');
     const [lessonDay, setDay] = useState('Tu');
     const [lessonHour, setHour] = useState('9:00')
 
@@ -19,9 +20,11 @@ export default function WklySchedule() {
     const scheduleAlesson = (event) => {
         //alert('you are here!!!!!!!!!!!!!!')
         event.preventDefault();
-        var tmp = event.target.id;
+        var tmp = event.target.id;  // "Tu0900"
         var day = tmp.substr(0,2);
         var hour = tmp.substr(2);
+
+        setTimeSlot(tmp);
         setDay(day);
         setHour(hour)
         setMessage(convertDay(day) + " " + convertHour(hour));
@@ -33,7 +36,8 @@ export default function WklySchedule() {
         <div className="app-container">
            <p>{weekMsg}</p>
             <LessonForm 
-                trigger={anchorPopup} 
+                trigger={anchorPopup}
+                timeSlot={timeSlot}
                 setTrigger={setShow} 
                 message={message} 
                 weekOf={weekOf}

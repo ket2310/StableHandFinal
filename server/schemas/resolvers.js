@@ -80,9 +80,9 @@ const resolvers = {
     },
 
 
-    bookLesson: async (parent, { lessonDate, startTime, endTime, duration, rider, instructor, horse }) => {
-      const lesson = await Lesson.create({ lessonDate, startTime, endTime, duration, 
-        rider, instructor, horse });
+    bookLesson: async (parent, { lessonDate, startTime,  duration, timeSlot, rider, instructor, horse }) => {
+      const lesson = await Lesson.create({ lessonDate, startTime, duration, 
+       timeSlot, rider, instructor, horse });
       return lesson;
     },
 

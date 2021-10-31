@@ -1,29 +1,32 @@
 import { gql } from '@apollo/client';
 
 export const BOOK_LESSON = gql`
-mutation bookLesson (
-  $lessonDate: date!,
-  $startTime: String!,
-  $endTime: String!,    
-  $duration: Int!,    
-  $rider: RiderData,
-  $instructor: InstructorData,
-  $horse: HorseData
-) 
-{
-bookLesson ( lessonDate: $lessonDate, startTime: $startTime, endTime: $endTime, duration: $duration,
-rider: $rider, instructor: $instructor, horse: $horse ) 
-{
-lessonDate
-startTime
-endTime
-duration
-rider {firstName lastName}
-instructor {firstName lastName}
-horse { name}
-}
-}
-`;
+mutation bookLesson (  $lessonDate: date!,
+                       $startTime: String!,
+                       $duration: Int!,
+                       $timeSlot: String!,
+                       $rider: RiderData,
+                       $instructor: InstructorData,
+                       $horse: HorseData
+                    ) 
+                    {
+                         bookLesson (lessonDate: $lessonDate,
+                                     startTime: $startTime, 
+                                     duration: $duration,
+                                     timeSlot: $timeSlot,
+                                     rider: $rider, 
+                                     instructor: $instructor, 
+                                     horse: $horse 
+                                    ) 
+                                    {
+                                        lessonDate
+                                        startTime
+                                        duration
+                                        rider {firstName lastName}
+                                        instructor {firstName lastName}
+                                        horse {name}
+                                    }
+                    }`;
 
 
 export const LOGIN_USER = gql`

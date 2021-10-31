@@ -10,6 +10,7 @@ const typeDefs = gql`
         startTime: String
         endTime: String
         duration: Int
+        timeSlot: String
         rider:  Rider!
         instructor: Instructor!
         horse: Horse!
@@ -113,8 +114,8 @@ const typeDefs = gql`
         bookLesson(
             lessonDate: date!
             startTime: String!,
-            endTime: String!,
             duration: Int!,
+            timeSlot: String!,
             rider: RiderData,
             instructor: InstructorData,
             horse: HorseData
