@@ -22,7 +22,6 @@ const resolvers = {
     },
 
     lesson: async (parent, { lessonId }) => {
-      console.log(Lesson.findOne(ObjectId(lessonId)));
       return Lesson.findOne(ObjectId(lessonId));
     },
 

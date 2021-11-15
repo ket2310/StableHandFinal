@@ -63,8 +63,8 @@ export const  QUERY_A_HORSE = gql`
 `;
 
 export const QUERY_TIMESLOT = gql`
-    query getTimeSlot$id: ID!)  {
-        lesson(lessonId: $id) {
+    query getTimeSlot($lessonId: ID!)  {
+        lesson(lessonId: $lessonId) {
           timeSlot
         }
       }
