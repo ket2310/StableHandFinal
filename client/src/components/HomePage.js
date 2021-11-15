@@ -13,7 +13,7 @@ function HomePage() {
 
     const goToTask = () => {
         if (task === 'schedule') {
-            return (<LessonSchedule />)
+            return (<LessonSchedule/>)
         }
         if (task === 'instructors') {
             return (<Instructors />)

@@ -7,8 +7,7 @@ export const QUERY_RIDERS = gql`
       riders {
           _id
           firstName
-          lastName
-         
+          lastName         
       }
   }`;
 
@@ -61,4 +60,12 @@ export const  QUERY_A_HORSE = gql`
             lessonLimit
         }
     }
-`
+`;
+
+export const QUERY_TIMESLOT = gql`
+    query getTimeSlot$id: ID!)  {
+        lesson(lessonId: $id) {
+          timeSlot
+        }
+      }
+`;

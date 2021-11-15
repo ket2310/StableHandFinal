@@ -68,19 +68,20 @@ const typeDefs = gql`
     
     type Query {
         users: [User]
-        user(_id: ID!): User
+        user(id: ID!): User
         me: User
                 
-        lesson(_id: ID!): Lesson        
+        lessons: [Lesson]   
+        lesson(lessonId: ID!): Lesson        
 
         instructors: [Instructor]
-        instructor(_id: ID!): Instructor
+        instructor(id: ID!): Instructor
 
         horses: [Horse]
-        horse(_id: ID!): Horse
+        horse(id: ID!): Horse
 
         riders: [Rider]
-        rider(_id: ID!): Rider
+        rider(id: ID!): Rider
         
     }
  

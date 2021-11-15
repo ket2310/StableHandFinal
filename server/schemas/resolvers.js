@@ -16,13 +16,14 @@ const resolvers = {
 
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('thoughts');
+        return User.findOne({ _id: context.user._id });
       }
       throw new AuthenticationError('You need to be logged in!');
     },
 
     lesson: async (parent, { lessonId }) => {
-      return Lesson.findOne({ _id: lessonId });
+      console.log(Lesson.findOne(ObjectId(lessonId)));
+      return Lesson.findOne(ObjectId(lessonId));
     },
 
     instructors: async () => {

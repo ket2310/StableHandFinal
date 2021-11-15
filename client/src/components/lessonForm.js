@@ -19,10 +19,8 @@ function LessonForm(props) {
 
     const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
     const timeSlot = props.timeSlot + bookedDate.replace(/\//g,"");
-    console.log(timeSlot)
-    console.log(props.lessonHour)
+   
     const startTime = props.lessonHour;
-    console.log(startTime)
 
     let duration = 1;
     const { loading: loadingRiders, data: rdata } = useQuery(QUERY_RIDERS);
