@@ -25,6 +25,10 @@ const resolvers = {
       return Lesson.findOne(ObjectId(lessonId));
     },
 
+    lessons: async () => {
+      return Lesson.find({})
+    },
+    
     instructors: async () => {
       return Instructor.find({});
     },

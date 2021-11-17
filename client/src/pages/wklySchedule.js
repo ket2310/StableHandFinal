@@ -1,6 +1,9 @@
 import React from "react";
 import '../styles/timesheet.css'
 import LessonForm from "../components/lessonForm";
+import { useQuery } from '@apollo/client';
+import findDateOfLesson from "../utils/findDateOfLesson";
+import { QUERY_LESSONS } from "../utils/queries";
 import { useState } from 'react';
 import convertDay from "../utils/convertDay";
 import convertHour from "../utils/convertHour";
@@ -10,13 +13,17 @@ const moment = require('moment');
 export default function WklySchedule() {
     const [weekOf, setWeekOf] = useState(moment().startOf('week').day('Tuesday'));
     const [weekMsg, setWeeOfMessage] = useState("Lesson Schedule for the week of " + weekOf.format("dddd, MMMM Do"))
-    const [timeSlot, setTimeSlot] = useState('');
+    const [timeSlot, setTimeSlot] = useState('Tu0900');
     const [lessonDay, setDay] = useState('Tu');
     const [lessonHour, setHour] = useState('9:00')
 
     const [anchorPopup, setShow] = useState(false)
     const [message, setMessage] = useState('')
 
+    const { loading, data } = useQuery(QUERY_LESSONS);
+
+    const lessons = data?.lessons || [];
+  
     let availability = null;
 
     const scheduleAlesson = (event) => {
@@ -35,9 +42,12 @@ export default function WklySchedule() {
 
     }
     function checkIfavailable(id) {
-        
-        availability = "Available";
-        console.log(id);
+        try {
+      
+            availability = "Available";
+        } catch (err) {
+            console.error(err);
+        }
         return id;
     }
 
@@ -166,7 +176,7 @@ export default function WklySchedule() {
                         <td><a href="/" id="Th0230" onClick={scheduleAlesson}>{checkIfavailable("Th0230")}</a></td>
                         <td><a href="/" id="Fr0230" onClick={scheduleAlesson}>{checkIfavailable("Fr0230")}</a></td>
                         <td><a href="/" id="Sa0230" onClick={scheduleAlesson}>{checkIfavailable("Sa0230")}</a></td>
-                        <td><a href="/" id="Su0230" onClick={scheduleAlesson}>{checkIfavailable("Su0230")}</a></td>  
+                        <td><a href="/" id="Su0230" onClick={scheduleAlesson}>{checkIfavailable("Su0230")}</a></td>
                     </tr>
                     <tr>
                         <td rowSpan={2}><span>3:00</span></td>
@@ -217,7 +227,7 @@ export default function WklySchedule() {
                         <td><a href="/" id="Th0530" onClick={scheduleAlesson}>{checkIfavailable("Th0530")}</a></td>
                         <td><a href="/" id="Fr0530" onClick={scheduleAlesson}>{checkIfavailable("Fr0530")}</a></td>
                         <td><a href="/" id="Sa0530" onClick={scheduleAlesson}>{checkIfavailable("Sa0530")}</a></td>
-                        <td><a href="/" id="Su0530" onClick={scheduleAlesson}>{checkIfavailable("Su0530")}</a></td>                  
+                        <td><a href="/" id="Su0530" onClick={scheduleAlesson}>{checkIfavailable("Su0530")}</a></td>
                     </tr>
                 </tbody>
 

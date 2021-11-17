@@ -15,11 +15,10 @@ var idHorse = null;
 function LessonForm(props) {
     const weekOfDate = props.weekOf.format("MM/DD/YYYY");
     const lessonDay = props.lessonDay;
-    // console.log(weekOfDate)
 
     const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
     const timeSlot = props.timeSlot + bookedDate.replace(/\//g,"");
-   
+    console.log(timeSlot)
     const startTime = props.lessonHour;
 
     let duration = 1;
