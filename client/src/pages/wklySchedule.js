@@ -23,7 +23,7 @@ export default function WklySchedule() {
     const { loading, data } = useQuery(QUERY_LESSONS);
 
     const lessons = data?.lessons || [];
-  
+
     let availability = null;
 
     const scheduleAlesson = (event) => {
@@ -42,18 +42,44 @@ export default function WklySchedule() {
 
     }
     function checkIfavailable(id) {
-        try {
-      
-            availability = "Available";
-        } catch (err) {
-            console.error(err);
-        }
+        const weekOfDate = weekOf.format("MM/DD/YYYY");
+        const lessonDay = id.substr(0, 2);
+        const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
+        const ts = id + bookedDate.replace(/\//g, "");
+        console.log(ts)
+        const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
+
+        if (lessonBooked)
+            console.log(lessonBooked)
+        availability = "Available";
         return id;
+    }
+
+    function goForward() {
+        setWeekOf(weekOf.add(7, "d"))
+        setWeeOfMessage("Lesson Schedule for the week of " + weekOf.format("dddd, MMMM Do"));
+        console.log(weekMsg);
+    }
+
+    function goBackward() {
+        setWeekOf(weekOf.subtract(7, "d"))
+        setWeeOfMessage("Lesson Schedule for the week of " + weekOf.format("dddd, MMMM Do"));
+        console.log(weekMsg);
     }
 
     return (
         <div className="app-container">
-            <p>{weekMsg}</p>
+            <div>
+                <button type="button" id="backward"
+                    onClick={() => goBackward()}>
+                    Previous
+                </button>
+                <p>{weekMsg}</p>
+                <button type="button" id="forward"
+                    onClick={() => goForward()}>
+                    Next
+                </button>
+            </div>
             <LessonForm
                 trigger={anchorPopup}
                 timeSlot={timeSlot}
