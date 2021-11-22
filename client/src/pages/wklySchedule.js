@@ -48,11 +48,12 @@ export default function WklySchedule() {
         const ts = id + bookedDate.replace(/\//g, "");
         console.log(ts)
         const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
-
-        if (lessonBooked)
-            console.log(lessonBooked)
+        console.log (lessonBooked)
         availability = "Available";
-        return id;
+        if (lessonBooked)
+            availability = lessonBooked.timeSlot;
+
+        return availability;
     }
 
     function goForward() {
@@ -69,7 +70,7 @@ export default function WklySchedule() {
 
     return (
         <div className="app-container">
-            <div>
+            <div className="text-center flex flex-column flex-start">
                 <button type="button" id="backward"
                     onClick={() => goBackward()}>
                     Previous

@@ -71,9 +71,10 @@ export const QUERY_LESSONS = gql`
     }
 `
 export const QUERY_TIMESLOT = gql`
-    query getTimeSlot($lessonId: ID!)  {
-        lesson(lessonId: $lessonId) {
+    query getTimeSlot($lessonId: ID!, $rider: RiderData)  {
+        lesson(lessonId: $lessonId, rider: $rider) {
           timeSlot
+          rider {firstName lastName}
         }
       }
 `;
