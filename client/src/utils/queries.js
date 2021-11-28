@@ -67,6 +67,7 @@ export const QUERY_LESSONS = gql`
         lessons{
             _id
             timeSlot
+            rider { _id firstName lastName}
         }
     }
 `
@@ -74,7 +75,7 @@ export const QUERY_TIMESLOT = gql`
     query getTimeSlot($lessonId: ID!, $rider: RiderData)  {
         lesson(lessonId: $lessonId, rider: $rider) {
           timeSlot
-          rider {firstName lastName}
+          rider { _id firstName lastName}
         }
       }
 `;

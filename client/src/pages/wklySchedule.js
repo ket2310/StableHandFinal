@@ -3,7 +3,7 @@ import '../styles/timesheet.css'
 import LessonForm from "../components/lessonForm";
 import { useQuery } from '@apollo/client';
 import findDateOfLesson from "../utils/findDateOfLesson";
-import { QUERY_LESSONS } from "../utils/queries";
+import { QUERY_LESSONS, QUERY_TIMESLOT} from "../utils/queries";
 import { useState } from 'react';
 import convertDay from "../utils/convertDay";
 import convertHour from "../utils/convertHour";
@@ -21,6 +21,9 @@ export default function WklySchedule() {
     const [message, setMessage] = useState('')
 
     const { loading, data } = useQuery(QUERY_LESSONS);
+
+    // const { loading: loadTimeSlot, data: timeSlotData }  = useQuery(QUERY_TIMESLOT,
+    //     { variables: { id: 'lessonId' }})
 
     const lessons = data?.lessons || [];
 
@@ -46,12 +49,13 @@ export default function WklySchedule() {
         const lessonDay = id.substr(0, 2);
         const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
         const ts = id + bookedDate.replace(/\//g, "");
-        console.log(ts)
+
         const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
+        if(lessonBooked)
         console.log (lessonBooked)
         availability = "Available";
         if (lessonBooked)
-            availability = lessonBooked.timeSlot;
+            availability = lessonBooked.rider.firstName + " " + lessonBooked.rider.lastName;
 
         return availability;
     }

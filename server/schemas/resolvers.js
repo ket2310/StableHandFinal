@@ -26,7 +26,7 @@ const resolvers = {
     },
 
     lessons: async () => {
-      return Lesson.find({})
+      return Lesson.find({}).populate('rider')
     },
     
     instructors: async () => {
