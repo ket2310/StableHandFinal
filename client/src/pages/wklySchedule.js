@@ -3,7 +3,7 @@ import '../styles/timesheet.css'
 import LessonForm from "../components/lessonForm";
 import { useQuery } from '@apollo/client';
 import findDateOfLesson from "../utils/findDateOfLesson";
-import { QUERY_LESSONS, QUERY_TIMESLOT} from "../utils/queries";
+import { QUERY_LESSONS } from "../utils/queries";
 import { useState } from 'react';
 import convertDay from "../utils/convertDay";
 import convertHour from "../utils/convertHour";
@@ -21,9 +21,6 @@ export default function WklySchedule() {
     const [message, setMessage] = useState('')
 
     const { loading, data } = useQuery(QUERY_LESSONS);
-
-    // const { loading: loadTimeSlot, data: timeSlotData }  = useQuery(QUERY_TIMESLOT,
-    //     { variables: { id: 'lessonId' }})
 
     const lessons = data?.lessons || [];
 
@@ -74,15 +71,15 @@ export default function WklySchedule() {
 
     return (
         <div className="app-container">
-            <div className="text-center flex flex-column flex-start">
+            <div className="directional">
                 <button type="button" id="backward"
                     onClick={() => goBackward()}>
-                    Previous
-                </button>
-                <p>{weekMsg}</p>
+                    Last week
+                </button> &nbsp; &nbsp;
+                <p>{weekMsg}</p> &nbsp; &nbsp;
                 <button type="button" id="forward"
                     onClick={() => goForward()}>
-                    Next
+                    Next week
                 </button>
             </div>
             <LessonForm

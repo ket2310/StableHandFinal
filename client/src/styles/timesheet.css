@@ -17,7 +17,10 @@
     border-collapse: collapse;
     width: 50%;
   }
-  
+  .directional{
+    display: flex;
+    flex-direction: row;
+  }
   th,
   td {
     border: 1px solid black;
