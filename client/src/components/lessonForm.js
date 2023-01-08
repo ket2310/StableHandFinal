@@ -22,9 +22,9 @@ function LessonForm(props) {
     const startTime = props.lessonHour;
 
     let duration = 1;
-    const { loading: loadingRiders, data: rdata } = useQuery(QUERY_RIDERS);
-    const { loading: loadingInstructors, data: idata } = useQuery(QUERY_INSTRUCTORS)
-    const { loading: loadintHorses, data: hdata } = useQuery(QUERY_HORSES)
+    const { data: rdata } = useQuery(QUERY_RIDERS);
+    const { data: idata } = useQuery(QUERY_INSTRUCTORS)
+    const { data: hdata } = useQuery(QUERY_HORSES)
 
     const riders = rdata?.riders || [];
     const instructors = idata?.instructors || [];
@@ -67,8 +67,16 @@ function LessonForm(props) {
                     startTime: startTime,
                     duration: duration,
                     timeSlot: timeSlot,
-                    rider: { _id: objRider._id, firstName: objRider.firstNme, lastName: objRider.lastName },
-                    instructor: { _id: objInstructor._id, firstName: objInstructor.firstName, lastName: objInstructor.lastName },
+                    rider: { 
+                                _id: objRider._id, 
+                                firstName: objRider.firstNme, 
+                                lastName: objRider.lastName 
+                            },
+                    instructor: { 
+                                    _id: objInstructor._id,
+                                    firstName: objInstructor.firstName, 
+                                    lastName: objInstructor.lastName 
+                                },
                     horse: { _id: objHorse._id, name: objHorse.name }
 
                 },

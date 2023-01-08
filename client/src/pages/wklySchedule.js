@@ -14,6 +14,7 @@ export default function WklySchedule() {
     const [weekOf, setWeekOf] = useState(moment().startOf('week').day('Tuesday'));
     const [weekMsg, setWeeOfMessage] = useState("Lesson Schedule for the week of " + weekOf.format("dddd, MMMM Do"))
     const [timeSlot, setTimeSlot] = useState('Tu0900');
+    const [openings, setOpenings] = useState([]);
     const [lessonDay, setDay] = useState('Tu');
     const [lessonHour, setHour] = useState('9:00')
 
@@ -33,26 +34,37 @@ export default function WklySchedule() {
         var day = tmp.substr(0, 2);
         var hour = tmp.substr(2);
 
-        setTimeSlot(tmp);
-        setDay(day);
-        setHour(hour)
-        setMessage(convertDay(day) + " " + convertHour(hour));
-        setShow(true);
+        if (checkIfavailable(tmp) === "Available") {
+            setTimeSlot(tmp);
+            setDay(day);
+            setHour(hour)
+            setMessage(convertDay(day) + " " + convertHour(hour));
+            setShow(true);
+        } else {
+            //  We are editing a lesson with the 'ts' variable
+            const weekOfDate = weekOf.format("MM/DD/YYYY"); // 11/30/2021
+            const lessonDay = tmp.substr(0, 2); // "Tu"
+            const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString(); // "12052021"
+            const ts = tmp + bookedDate.replace(/\//g, ""); // "Su0900 + 12052021"
 
+            const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
 
+            if (lessonBooked)
+                console.log(lessonBooked);
+        }
     }
-    function checkIfavailable(id) {
-        const weekOfDate = weekOf.format("MM/DD/YYYY");
-        const lessonDay = id.substr(0, 2);
-        const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
-        const ts = id + bookedDate.replace(/\//g, "");
+
+    function checkIfavailable(id) {  //  Here, id = "Tu0900"
+        const weekOfDate = weekOf.format("MM/DD/YYYY"); // 11/30/2021
+        const lessonDay = id.substr(0, 2); // "Tu"
+        const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString(); // "12052021"
+        const ts = id + bookedDate.replace(/\//g, ""); // "Su0900 + 12052021"
 
         const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
-        if(lessonBooked)
-        console.log (lessonBooked)
         availability = "Available";
         if (lessonBooked)
             availability = lessonBooked.rider.firstName + " " + lessonBooked.rider.lastName;
+
 
         return availability;
     }
