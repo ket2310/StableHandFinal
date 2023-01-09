@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../styles/lesson.css"
 import findDateOfLesson from "../utils/findDateOfLesson";
 import { useMutation } from '@apollo/client';
@@ -7,7 +7,7 @@ import { QUERY_HORSES, QUERY_RIDERS, QUERY_INSTRUCTORS } from "../utils/queries"
 import { BOOK_LESSON } from "../utils/mutations";
 import convertHour from "../utils/convertHour";
 
-const moment = require('moment');
+//const moment = require('moment');
 var idRider = null;
 var idInstructor = null;
 var idHorse = null;
@@ -30,7 +30,7 @@ function LessonForm(props) {
     const instructors = idata?.instructors || [];
     const horses = hdata?.horses || [];
 
-    const [bookLesson, { errorBook }] = useMutation(BOOK_LESSON);
+    const [bookLesson] = useMutation(BOOK_LESSON);
 
     const handleDuration = (e) => {
         e.preventDefault();
@@ -39,7 +39,7 @@ function LessonForm(props) {
 
     const handleInputChange = (e) => {
         // Getting the value and name of the input which triggered the change
-        const { name, value } = e.target;
+        //const { name, value } = e.target;
     };
 
     const handleRiderChange = (e) => {

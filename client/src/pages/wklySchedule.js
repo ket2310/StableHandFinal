@@ -14,14 +14,14 @@ export default function WklySchedule() {
     const [weekOf, setWeekOf] = useState(moment().startOf('week').day('Tuesday'));
     const [weekMsg, setWeeOfMessage] = useState("Lesson Schedule for the week of " + weekOf.format("dddd, MMMM Do"))
     const [timeSlot, setTimeSlot] = useState('Tu0900');
-    const [openings, setOpenings] = useState([]);
+    //const [openings, setOpenings] = useState([]);
     const [lessonDay, setDay] = useState('Tu');
     const [lessonHour, setHour] = useState('9:00')
 
     const [anchorPopup, setShow] = useState(false)
     const [message, setMessage] = useState('')
 
-    const { loading, data } = useQuery(QUERY_LESSONS);
+    const { data } = useQuery(QUERY_LESSONS);
 
     const lessons = data?.lessons || [];
 
