@@ -51,6 +51,8 @@ export default function WklySchedule() {
 
             if (lessonBooked)
                 console.log(lessonBooked);
+
+            setShow(true);
         }
     }
 

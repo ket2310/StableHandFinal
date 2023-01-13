@@ -17,7 +17,7 @@ function LessonForm(props) {
     const lessonDay = props.lessonDay;
 
     const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
-    const timeSlot = props.timeSlot + bookedDate.replace(/\//g,"");
+    const timeSlot = props.timeSlot + bookedDate.replace(/\//g, "");
     console.log(timeSlot)
     const startTime = props.lessonHour;
 
@@ -67,21 +67,21 @@ function LessonForm(props) {
                     startTime: startTime,
                     duration: duration,
                     timeSlot: timeSlot,
-                    rider: { 
-                                _id: objRider._id, 
-                                firstName: objRider.firstNme, 
-                                lastName: objRider.lastName 
-                            },
-                    instructor: { 
-                                    _id: objInstructor._id,
-                                    firstName: objInstructor.firstName, 
-                                    lastName: objInstructor.lastName 
-                                },
+                    rider: {
+                        _id: objRider._id,
+                        firstName: objRider.firstNme,
+                        lastName: objRider.lastName
+                    },
+                    instructor: {
+                        _id: objInstructor._id,
+                        firstName: objInstructor.firstName,
+                        lastName: objInstructor.lastName
+                    },
                     horse: { _id: objHorse._id, name: objHorse.name }
 
                 },
             });
-            document.getElementById(props.timeSlot).text = objRider.firstName  + " " +objRider.lastName;
+            document.getElementById(props.timeSlot).text = objRider.firstName + " " + objRider.lastName;
         } catch (err) {
             console.error(err);
         }
