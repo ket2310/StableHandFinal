@@ -67,7 +67,19 @@ export const QUERY_LESSONS = gql`
         lessons{
             _id
             timeSlot
-            rider { _id firstName lastName}
+            rider {  _id
+                firstName
+                lastName
+            }
+            instructor {
+                _id
+                firstName
+                lastName
+            }
+            horse {
+                _id
+                name
+            }
         }
     }
 `

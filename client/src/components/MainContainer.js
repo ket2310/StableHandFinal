@@ -7,7 +7,7 @@ import LoginForm from './LoginForm';
 
 export default function MainContainer(props) {
     const currPg = props.currentPg;
-    console.log(currPg)
+   
 
     const renderNavigation = () => {
         if (currPg === "HomePage" && Auth.loggedIn()) {

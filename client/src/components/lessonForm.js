@@ -18,7 +18,7 @@ function LessonForm(props) {
 
     const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
     const timeSlot = props.timeSlot + bookedDate.replace(/\//g, "");
-    console.log(timeSlot)
+ 
     const startTime = props.lessonHour;
 
     let duration = 1;
@@ -38,6 +38,8 @@ function LessonForm(props) {
     }
 
     const handleInputChange = (e) => {
+        console.log("Contents of lesson")
+        console.log (props.riderLesson)
         // Getting the value and name of the input which triggered the change
         //const { name, value } = e.target;
     };
@@ -56,9 +58,11 @@ function LessonForm(props) {
 
     const handleFormSubmit = async () => {
 
-        const objRider = riders.find(rider => rider._id === idRider);
+        const objRider = riders.find(rider => rider._id === idRider);        
         const objInstructor = instructors.find(instructor => instructor._id === idInstructor);
+        console.log (objInstructor)
         const objHorse = horses.find(horse => horse._id === idHorse);
+        console.log (objHorse)
 
         try {
             const { data } = await bookLesson({
@@ -81,14 +85,85 @@ function LessonForm(props) {
 
                 },
             });
+            console.log(data)
             document.getElementById(props.timeSlot).text = objRider.firstName + " " + objRider.lastName;
         } catch (err) {
             console.error(err);
         }
         props.setTrigger(false)
     }
-    return (props.trigger) ? (
+    return (props.trigger) ? ((props.riderLesson) ? (
         <div className="popup">
+            <div className="popup-content">
+                <h3>{props.riderLesson.rider.firstName}</h3>
+                <span className="close-btn" onClick={() => props.setTrigger(false)}>
+                    Close</span>
+                {props.children}
+                <form className="lessonForm">
+                    <div>
+                        <label> Date:</label>&nbsp;
+                        <input
+                            text={props.riderLesson.rider.lessonDate}
+                            //value={bookedDate}
+                            name="bookedDate"
+                            onChange={handleInputChange}
+                            type="text"
+                            placeholder="Lesson Date"
+                        />
+                    </div>
+                    <div>
+                        <label> Time:</label>&nbsp;
+                        <input
+                            value={props.riderLesson.rider.startTime}
+                            name="startTime"
+                            onChange={handleInputChange}
+                            type="text"
+                            placeholder="Start Time"
+                        />
+                    </div>
+                    <div>
+                    <label>Rider: </label>&nbsp;
+                        <select onChange={handleRiderChange}>
+                        <option defaultValue>{props.riderLesson.rider.firstName + " " + props.riderLesson.rider.lastName}</option>
+                            {riders && riders.map((rider) =>
+                                (<option value={rider._id} key={rider._id}>{rider.firstName + " " + rider.lastName}</option>))}
+                        </select>
+                        {/*  <select onChange={handleRiderChange}>
+                            <option value="Rider"> -- Select a Rider -- </option>
+                            {riders && riders.map((rider) =>
+                                (<option value={rider._id} key={rider._id}>{rider.firstName + " " + rider.lastName}</option>))}
+                        </select> */}
+                    </div>
+                    <div>
+                        <label>Instructor: </label>&nbsp;
+                        <select onChange={handleInstructorChange}>
+                            <option defaultValue>{props.riderLesson.instructor.firstName + " " + props.riderLesson.instructor.lastName} </option>
+                            {instructors && instructors.map((instructor) =>
+                                (<option value={instructor._id} key={instructor._id}>{instructor.firstName + " " + instructor.lastName}</option>))}
+                        </select></div><div>
+                        <label>Horse: </label>&nbsp;
+                        <select onChange={handleHorseChange}>
+                        <option defaultValue>{props.riderLesson.horse.name}</option>
+                            {horses && horses.map((horse) =>
+                                (<option value={horse._id} key={horse._id}>{horse.name}</option>))}
+                        </select>
+                    </div>
+                    <div> <label>Duration</label>&nbsp;
+                        <select onChange={handleDuration}>
+                            <option value="1">1 hour</option>
+                            <option value="30">30 minutes</option>
+                        </select>
+                    </div>
+                    <button type="button" id="bookTime"
+                        onClick={() => handleFormSubmit()}>
+                        Submit
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    ) :
+        (<div className="popup">
             <div className="popup-content">
                 <h3>{props.message}</h3>
                 <span className="close-btn" onClick={() => props.setTrigger(false)}>
@@ -161,7 +236,7 @@ function LessonForm(props) {
 
             </div>
         </div>
-    ) : "";
+        )) : "";
 }
 
 

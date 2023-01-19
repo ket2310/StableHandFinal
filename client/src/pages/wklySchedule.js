@@ -20,7 +20,7 @@ export default function WklySchedule() {
 
     const [anchorPopup, setShow] = useState(false)
     const [message, setMessage] = useState('')
-
+    const [riderLesson, setTimeForLesson] = useState(null);
     const { data } = useQuery(QUERY_LESSONS);
 
     const lessons = data?.lessons || [];
@@ -35,6 +35,7 @@ export default function WklySchedule() {
         var hour = tmp.substr(2);
 
         if (checkIfavailable(tmp) === "Available") {
+            setTimeForLesson(null);
             setTimeSlot(tmp);
             setDay(day);
             setHour(hour)
@@ -49,10 +50,14 @@ export default function WklySchedule() {
 
             const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
 
-            if (lessonBooked)
+            if (lessonBooked){
                 console.log(lessonBooked);
+                setTimeForLesson(lessonBooked);
+                console.log(lessonBooked)
+            }
 
             setShow(true);
+
         }
     }
 
@@ -104,6 +109,7 @@ export default function WklySchedule() {
                 weekOf={weekOf}
                 lessonDay={lessonDay}
                 lessonHour={lessonHour}
+                riderLesson={riderLesson}
             ></LessonForm>
             <table>
                 <thead>
