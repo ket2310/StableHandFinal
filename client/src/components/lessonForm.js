@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/lesson.css"
 import findDateOfLesson from "../utils/findDateOfLesson";
 import { useMutation } from '@apollo/client';
@@ -30,12 +30,14 @@ function LessonForm(props) {
     const instructors = idata?.instructors || [];
     const horses = hdata?.horses || [];
 
+    const [lessonRider, setRider] = useState({})
     const [bookLesson] = useMutation(BOOK_LESSON);
 
     const handleDuration = (e) => {
         e.preventDefault();
         duration = parseInt(e.target.value)
     }
+
 
     const handleInputChange = (e) => {
         console.log("Contents of lesson")
@@ -59,6 +61,8 @@ function LessonForm(props) {
     const handleFormSubmit = async () => {
 
         const objRider = riders.find(rider => rider._id === idRider);        
+        //setRider(riders.find(rider => rider._id === idRider));
+
         const objInstructor = instructors.find(instructor => instructor._id === idInstructor);
         console.log (objInstructor)
         const objHorse = horses.find(horse => horse._id === idHorse);
@@ -73,9 +77,9 @@ function LessonForm(props) {
                     timeSlot: timeSlot,
                     rider: {
                         _id: objRider._id,
-                        firstName: objRider.firstNme,
+                        firstName: objRider.firstName,
                         lastName: objRider.lastName
-                    },
+                  },
                     instructor: {
                         _id: objInstructor._id,
                         firstName: objInstructor.firstName,

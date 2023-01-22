@@ -22,9 +22,21 @@ mutation bookLesson (  $lessonDate: date!,
                                         lessonDate
                                         startTime
                                         duration
-                                        rider {firstName lastName}
-                                        instructor {firstName lastName}
-                                        horse {name}
+                                        
+                                          rider {
+                                            _id
+                                            lastName
+                                            firstName
+                                          }
+                                          instructor {
+                                            _id
+                                            firstName
+                                            lastName
+                                          }
+                                          horse {
+                                            _id
+                                            name
+                                          }
                                     }
                     }`;
 
@@ -93,7 +105,7 @@ mutation createHorse(
   createHorse ( 
       name: $name,
       lessonCount: $lesonCount,
-      lessonLimit: $lessonKLimit
+      lessonLimit: $lessonLimit
   ){
     horse {
       _id
