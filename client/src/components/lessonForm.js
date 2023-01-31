@@ -17,6 +17,7 @@ function LessonForm(props) {
     const lessonDay = props.lessonDay;
 
     const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
+    console.log("Date: " + bookedDate)
     const timeSlot = props.timeSlot + bookedDate.replace(/\//g, "");
  
     const startTime = props.lessonHour;
@@ -30,7 +31,8 @@ function LessonForm(props) {
     const instructors = idata?.instructors || [];
     const horses = hdata?.horses || [];
 
-    const [lessonRider, setRider] = useState({})
+    
+   // const [lessonRider, setRider] = useState({})
     const [bookLesson] = useMutation(BOOK_LESSON);
 
     const handleDuration = (e) => {
@@ -64,10 +66,8 @@ function LessonForm(props) {
         //setRider(riders.find(rider => rider._id === idRider));
 
         const objInstructor = instructors.find(instructor => instructor._id === idInstructor);
-        console.log (objInstructor)
         const objHorse = horses.find(horse => horse._id === idHorse);
-        console.log (objHorse)
-
+        console.log(objHorse)
         try {
             const { data } = await bookLesson({
                 variables: {
@@ -76,9 +76,7 @@ function LessonForm(props) {
                     duration: duration,
                     timeSlot: timeSlot,
                     rider: {
-                        _id: objRider._id,
-                        firstName: objRider.firstName,
-                        lastName: objRider.lastName
+                        _id: objRider._id,               
                   },
                     instructor: {
                         _id: objInstructor._id,
@@ -89,8 +87,11 @@ function LessonForm(props) {
 
                 },
             });
-            console.log(data)
-            document.getElementById(props.timeSlot).text = objRider.firstName + " " + objRider.lastName;
+
+            //props.riderLesson.rider.firstName = data.rider.firstName
+            //props.riderLesson.rider.lastName = data.rider.lastName
+            console.log(props.riderLesson)
+            document.getElementById(props.timeSlot).text = "Testing..." + objRider.firstName + " " + objRider.lastName;
         } catch (err) {
             console.error(err);
         }
@@ -107,7 +108,8 @@ function LessonForm(props) {
                     <div>
                         <label> Date:</label>&nbsp;
                         <input
-                            text={props.riderLesson.rider.lessonDate}
+                            text = {bookedDate}
+                            // text={props.riderLesson.rider.lessonDate}
                             //value={bookedDate}
                             name="bookedDate"
                             onChange={handleInputChange}

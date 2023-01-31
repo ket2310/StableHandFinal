@@ -85,9 +85,16 @@ const resolvers = {
 
 
     bookLesson: async (parent, { lessonDate, startTime,  duration, timeSlot, rider, instructor, horse }) => {
-      const lesson = await Lesson.create({ lessonDate, startTime, duration, 
-       timeSlot, rider, instructor, horse });
-       console.log(lesson)
+      const lesson = await Lesson.create({
+        lessonDate, startTime, duration,
+        timeSlot, rider, instructor, horse
+      });
+      lesson.rider = await Rider.findOne({_id: rider._id });
+      lesson.instructor = await Instructor.findOne({_id: instructor._id});
+      lesson.horse = await Horse.findOne({_id: horse._id});
+            
+      console.log (lesson.horse)
+    //  console.log(lesson)
       return lesson;
     },
 

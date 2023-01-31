@@ -22,7 +22,7 @@ mutation bookLesson (  $lessonDate: date!,
                                         lessonDate
                                         startTime
                                         duration
-                                        
+                                        timeSlot
                                           rider {
                                             _id
                                             lastName
