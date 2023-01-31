@@ -10,7 +10,7 @@ import convertHour from "../utils/convertHour";
 
 const moment = require('moment');
 
-export default function WklySchedule() {
+function WklySchedule() {
     const [weekOf, setWeekOf] = useState(moment().startOf('week').day('Tuesday'));
     const [weekMsg, setWeeOfMessage] = useState("Lesson Schedule for the week of " + weekOf.format("dddd, MMMM Do"))
     const [timeSlot, setTimeSlot] = useState('Tu0900');
@@ -21,8 +21,8 @@ export default function WklySchedule() {
     const [anchorPopup, setShow] = useState(false)
     const [message, setMessage] = useState('')
     const [riderLesson, setTimeForLesson] = useState(null);
+    
     const { data } = useQuery(QUERY_LESSONS);
-
     const lessons = data?.lessons || [];
 
     let availability = null;
@@ -30,7 +30,7 @@ export default function WklySchedule() {
     const scheduleAlesson = (event) => {
         //alert('you are here!!!!!!!!!!!!!!')
         event.preventDefault();
-        var tmp = event.target.id;
+        var tmp = event.target.id;   
         var day = tmp.substr(0, 2);
         var hour = tmp.substr(2);
 
@@ -286,3 +286,4 @@ export default function WklySchedule() {
     );
 
 }
+export default WklySchedule

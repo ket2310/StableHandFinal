@@ -3,7 +3,7 @@ import "../styles/lesson.css"
 import findDateOfLesson from "../utils/findDateOfLesson";
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
-import { QUERY_HORSES, QUERY_RIDERS, QUERY_INSTRUCTORS } from "../utils/queries";
+import { QUERY_HORSES, QUERY_RIDERS, QUERY_INSTRUCTORS, QUERY_LESSONS} from "../utils/queries";
 import { BOOK_LESSON } from "../utils/mutations";
 import convertHour from "../utils/convertHour";
 
@@ -15,9 +15,8 @@ var idHorse = null;
 function LessonForm(props) {
     const weekOfDate = props.weekOf.format("MM/DD/YYYY");
     const lessonDay = props.lessonDay;
-
     const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
-    console.log("Date: " + bookedDate)
+    
     const timeSlot = props.timeSlot + bookedDate.replace(/\//g, "");
  
     const startTime = props.lessonHour;
@@ -31,8 +30,13 @@ function LessonForm(props) {
     const instructors = idata?.instructors || [];
     const horses = hdata?.horses || [];
 
-    
-   // const [lessonRider, setRider] = useState({})
+    const { data } = useQuery(QUERY_LESSONS);
+    const lessons = data?.lessons || [];
+    console.log(lessons)
+    const ts = props.timeSlot + bookedDate.replace(/\//g, ""); // "Su0900 + 12052021"
+    console.log(ts)
+    const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
+    //console.log(lessonBooked + " IN LESSON FORM")
     const [bookLesson] = useMutation(BOOK_LESSON);
 
     const handleDuration = (e) => {
@@ -244,6 +248,5 @@ function LessonForm(props) {
         </div>
         )) : "";
 }
-
 
 export default LessonForm;
