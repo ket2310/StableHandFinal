@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../styles/lesson.css"
 import findDateOfLesson from "../utils/findDateOfLesson";
 import { useMutation } from '@apollo/client';
@@ -35,7 +35,7 @@ function LessonForm(props) {
     console.log(lessons)
     const ts = props.timeSlot + bookedDate.replace(/\//g, ""); // "Su0900 + 12052021"
     console.log(ts)
-    const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
+    //const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
     //console.log(lessonBooked + " IN LESSON FORM")
     const [bookLesson] = useMutation(BOOK_LESSON);
 

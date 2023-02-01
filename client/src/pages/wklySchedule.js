@@ -87,7 +87,7 @@ function WklySchedule() {
         setWeeOfMessage("Lesson Schedule for the week of " + weekOf.format("dddd, MMMM Do"));
         console.log(weekMsg);
     }
-
+    console.log("On your mark...get set...GO!!!!!!!!!!!!!")
     return (
         <div className="app-container">
             <div className="directional">
