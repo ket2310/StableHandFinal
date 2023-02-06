@@ -1,10 +1,10 @@
-import React from "react";
+import React,  { useState } from "react";
 import '../styles/timesheet.css'
 import LessonForm from "../components/lessonForm";
 import { useQuery } from '@apollo/client';
 import findDateOfLesson from "../utils/findDateOfLesson";
 import { QUERY_LESSONS } from "../utils/queries";
-import { useState } from 'react';
+
 import convertDay from "../utils/convertDay";
 import convertHour from "../utils/convertHour";
 

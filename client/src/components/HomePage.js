@@ -33,17 +33,14 @@ function HomePage() {
                     <h4>View Lesson Schedule</h4>
                 </button>
 
-                {/* <button className="btn btn-primary" onClick=""><h4>Riding Instructors</h4></button> */}
                 <button className="btn btn-lg btn-light m-2" onClick={() => handlePageChange('instructors')}>
                     <h4>Riding Instructors</h4>
                 </button>
 
-                {/* <button className="btn btn-primary" onClick=""><h4>New Rider Enrollment</h4></button> */}
                 <button className="btn btn-lg btn-light m-2" onClick={() => handlePageChange('newrider')}>
                     <h4>New Rider Enrollment</h4>
                 </button>
 
-                {/* <button className="btn btn-primary" onClick=""><h4>Participating Students</h4></button> */}
                 <button className="btn btn-lg btn-light m-2" onClick={() => handlePageChange('studentlist')}>
                     <h4>Participating Students</h4>
                 </button>

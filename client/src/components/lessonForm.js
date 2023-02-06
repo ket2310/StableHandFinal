@@ -33,10 +33,13 @@ function LessonForm(props) {
     const { data } = useQuery(QUERY_LESSONS);
     const lessons = data?.lessons || [];
     console.log(lessons)
+    
     const ts = props.timeSlot + bookedDate.replace(/\//g, ""); // "Su0900 + 12052021"
     console.log(ts)
-    //const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
-    //console.log(lessonBooked + " IN LESSON FORM")
+    
+    const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
+    console.log(lessonBooked + " IN LESSON FORM")
+    
     const [bookLesson] = useMutation(BOOK_LESSON);
 
     const handleDuration = (e) => {
@@ -127,7 +130,7 @@ function LessonForm(props) {
                             value={props.riderLesson.rider.startTime}
                             name="startTime"
                             onChange={handleInputChange}
-                            type="text"
+                            type="text" 
                             placeholder="Start Time"
                         />
                     </div>

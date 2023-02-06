@@ -26,7 +26,7 @@ const resolvers = {
     },
 
     lessons: async () => {
-      return Lesson.find({}).populate('rider')
+      return Lesson.find({}).populate('rider').populate('horse').populate('instructor')
     },
     
     instructors: async () => {
@@ -93,7 +93,7 @@ const resolvers = {
       lesson.instructor = await Instructor.findOne({_id: instructor._id});
       lesson.horse = await Horse.findOne({_id: horse._id});
             
-      console.log (lesson.horse)
+      console.log (lesson)
     //  console.log(lesson)
       return lesson;
     },
