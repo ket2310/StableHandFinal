@@ -22,11 +22,17 @@ const resolvers = {
     },
 
     lesson: async (parent, { lessonId }) => {
-      return Lesson.findOne(ObjectId(lessonId));
+      return Lesson.findOne(ObjectId(lessonId))
+      .populate('rider')
+      .populate('horse')
+      .populate('instructor')
     },
 
     lessons: async () => {
-      return Lesson.find({}).populate('rider').populate('horse').populate('instructor')
+      return Lesson.find({})
+      .populate('rider')
+      .populate('horse')
+      .populate('instructor')
     },
     
     instructors: async () => {
@@ -53,7 +59,6 @@ const resolvers = {
       console.log("finding rider")
       const foundUser = await Rider.findOne({ _id: riderId })
       console.log(foundUser)
-      if (foundUser) throw new Error('Email is already in use')
 
       return foundUser;
     },

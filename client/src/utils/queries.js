@@ -13,7 +13,7 @@ export const QUERY_RIDERS = gql`
 
   export const QUERY_A_RIDER = gql`
   query getARider($riderId: ID!) {
-    rider(_id: $riderId) {
+    rider(riderId: $riderId) {
         _id
         firstName
         lastName
@@ -51,7 +51,7 @@ export const QUERY_HORSES = gql`
     }
 `;
 
-export const  QUERY_A_HORSE = gql`
+export const QUERY_A_HORSE = gql`
     query getAHorse ($horseId: ID!) {
         horse(horseId: $horseId) {
             _id
@@ -66,6 +66,8 @@ export const QUERY_LESSONS = gql`
     query getLessons{
         lessons{
             _id
+            lessonDate
+            startTime
             timeSlot
             rider {  _id
                 firstName
