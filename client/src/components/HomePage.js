@@ -27,7 +27,7 @@ function HomePage() {
     }
 
     return (
-        <div className="cd-main-header text-center flex flex-column flex-center">
+        <div className="cd-main-header flex flex-column">
             <div>
                 <button className="btn btn-lg btn-light m-2" onClick={() => handlePageChange('schedule')}>
                     <h4>View Lesson Schedule</h4>

@@ -113,7 +113,6 @@ function WklySchedule() {
             )
         })
     }
-    console.log("On your mark...get set...GO!!!!!!!!!!!!!")
     return (
         <>
             {
