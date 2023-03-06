@@ -7,15 +7,31 @@ import LessonForm from "../components/lessonForm";
 
 export default function Instructors() {
 
-  
-    const { data: idata } = useQuery(QUERY_INSTRUCTORS)  
-    const instructors = idata?.instructors || [];
-    console.log(instructors)
 
+    const { data: idata } = useQuery(QUERY_INSTRUCTORS)
+    const instructors = idata?.instructors || [];
+
+    const handleUpdate = (event) => {
+        event.preventDefault();
+
+        console.log('Update: ' + event.target.id);
+    }
+
+    const handleDelete = (event) => {
+        event.preventDefault();
+
+        console.log('Delete: ' + event.target.id);
+    }
+
+    const handleAdd = (event) => {
+        event.preventDefault();
+
+        
+    }
 
     return (
         <div>
-            Riding Instructors 
+            Riding Instructors
             <table>
                 <thead>
                     <tr>
@@ -24,11 +40,36 @@ export default function Instructors() {
                     </tr>
                 </thead>
                 <tbody >
-                {instructors.forEach(element => console.log(element))}
-
+                    {instructors.map((inst, index) => (
+                        <tr data-index={index} key={inst._id}>
+                            <td>{inst.firstName}</td>
+                            <td>{inst.lastName}</td>
+                            <td>
+                                <button
+                                    type="button"
+                                    id={inst._id}
+                                    onClick={(e) => handleUpdate(e)}>
+                                    Update
+                                </button>
+                            </td>
+                            <td>
+                                <button
+                                    type="button"
+                                    id={inst._id}
+                                    onClick={(e) => handleDelete(e)}>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                     <tr>
-                        <td></td>
-                        <td>Doe</td>
+                    <td>
+                                <button
+                                    type="button"                                  
+                                    onClick={(e) => handleAdd(e)}>
+                                    Add Instructor
+                                </button>
+                            </td>
                     </tr>
                 </tbody>
             </table>
