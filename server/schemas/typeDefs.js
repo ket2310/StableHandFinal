@@ -1,144 +1,118 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
+  scalar date
 
-    scalar date  
+  type Lesson {
+    _id: ID
+    lessonDate: date
+    startTime: String
+    endTime: String
+    duration: Int
+    timeSlot: String
+    rider: Rider!
+    instructor: Instructor!
+    horse: Horse!
+  }
 
-    type Lesson {
-        _id: ID
-        lessonDate: date
-        startTime: String
-        endTime: String
-        duration: Int
-        timeSlot: String
-        rider:  Rider!
-        instructor: Instructor!
-        horse: Horse!
-    }
+  type User {
+    _id: ID!
+    username: String
+    email: String
+    password: String
+  }
 
-    type User {
-        _id: ID!
-        username: String
-        email: String
-        password: String
-    }
+  type Auth {
+    token: ID!
+    user: User
+  }
 
-    type Auth {
-        token: ID!
-        user: User
-    }
+  type Horse {
+    _id: ID!
+    name: String
+    lessonCount: Int
+    lessonLimit: Int
+  }
 
-    type Horse{
-        _id: ID!
-        name: String
-        lessonCount: Int
-        lessonLimit: Int        
-    }    
+  input HorseData {
+    _id: ID
+    name: String
+  }
 
-    input HorseData {
-        _id: ID
-        name: String
-    }
+  type Instructor {
+    _id: ID!
+    firstName: String
+    lastName: String
+  }
 
-    type Instructor {
-        _id: ID!
-        firstName: String
-        lastName: String
-    }
+  input InstructorData {
+    _id: ID
+    firstName: String
+    lastName: String
+  }
+  type Rider {
+    _id: ID!
+    firstName: String
+    lastName: String
+    phone: String
+    email: String
+  }
 
-    input InstructorData {
-        _id: ID
-        firstName: String
-        lastName: String
-    }
-    type Rider {
-        _id: ID!
-        firstName: String
-        lastName: String
-        phone: String
-        email: String
-    }
-  
-    input RiderData {
-        _id: ID
-        firstName: String
-        lastName: String
-       
-    }
-    
-    type Query {
-        users: [User]
-        user(id: ID!): User
-        me: User
-                
-        lessons: [Lesson]   
-        lesson(lessonId: ID!,  rider: RiderData): Lesson        
+  input RiderData {
+    _id: ID
+    firstName: String
+    lastName: String
+  }
 
-        instructors: [Instructor]
-        instructor(id: ID!): Instructor
+  type Query {
+    users: [User]
+    user(id: ID!): User
+    me: User
 
-        horses: [Horse]
-        horse(id: ID!): Horse
+    lessons: [Lesson]
+    lesson(lessonId: ID!, rider: RiderData): Lesson
 
-        riders: [Rider]
-        rider(id: ID!): Rider
-        
-    }
- 
-    type Mutation {
-        createUser(
-            username: String!, 
-            email: String!, 
-            password: String!
-        ): 
-        Auth
-        login(email: String!, password: String!): Auth
+    instructors: [Instructor]
+    instructor(instructorId: ID!): Instructor
 
-        createRider (
-            firstName: String!,
-            LastName: String!
-            phone: String!,
-            email: String!
-        ): Rider
+    horses: [Horse]
+    horse(horseid: ID!): Horse
 
-        createInstructor(
-            firstName: String!,
-            LastName: String!
-        ): Instructor
+    riders: [Rider]
+    rider(riderId: ID!): Rider
+  }
 
-        createHorse(
-            name: String
-            lessonCount: Int
-            lessonLimit: Int            
-        ): Horse
+  type Mutation {
+    createUser(username: String!, email: String!, password: String!): Auth
+    login(email: String!, password: String!): Auth
 
-        bookLesson(
-            lessonDate: date!
-            startTime: String!,
-            duration: Int!,
-            timeSlot: String!,
-            rider: RiderData,
-            instructor: InstructorData,
-            horse: HorseData
-        ): Lesson
-        
-        
-        addRidertoLesson( 
-            rider: RiderData
-        ): Lesson
+    createRider(
+      firstName: String!
+      LastName: String!
+      phone: String!
+      email: String!
+    ): Rider
 
-        addHorsetoLesson( 
-            horse: HorseData
-        ): Lesson
+    createInstructor(firstName: String!, LastName: String!): Instructor
 
-        addInstructortoLesson( 
-            instructor: InstructorData
-        ): Lesson
+    createHorse(name: String, lessonCount: Int, lessonLimit: Int): Horse
 
+    bookLesson(
+      lessonDate: date!
+      startTime: String!
+      duration: Int!
+      timeSlot: String!
+      rider: RiderData
+      instructor: InstructorData
+      horse: HorseData
+    ): Lesson
 
+    addRidertoLesson(rider: RiderData): Lesson
 
-    }
+    addHorsetoLesson(horse: HorseData): Lesson
+
+    addInstructortoLesson(instructor: InstructorData): Lesson
+  }
 `;
 
 module.exports = typeDefs;
-

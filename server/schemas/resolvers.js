@@ -1,8 +1,7 @@
-const { User, Instructor, Horse, Rider, Lesson } = require('../models');
-const { AuthenticationError } = require('apollo-server-express');
-const { signToken } = require('../utils/auth');
-const { ObjectId } = require('mongodb');
-
+const { User, Instructor, Horse, Rider, Lesson } = require("../models");
+const { AuthenticationError } = require("apollo-server-express");
+const { signToken } = require("../utils/auth");
+const { ObjectId } = require("mongodb");
 
 const resolvers = {
   Query: {
@@ -18,17 +17,21 @@ const resolvers = {
       if (context.user) {
         return User.findOne({ _id: context.user._id });
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
 
+    //Added .populate in the lesson resolvers
     lesson: async (parent, { lessonId }) => {
-      return Lesson.findOne(ObjectId(lessonId));
+      return Lesson.findOne(ObjectId(lessonId)).populate("rider");
     },
 
     lessons: async () => {
-      return Lesson.find({}).populate('rider')
+      return Lesson.find({})
+        .populate("rider")
+        .populate("instructor")
+        .populate("horse");
     },
-    
+
     instructors: async () => {
       return Instructor.find({});
     },
@@ -38,7 +41,7 @@ const resolvers = {
     },
 
     horses: async () => {
-      return await Horse.find({})
+      return await Horse.find({});
     },
 
     horse: async (parent, { horseId }) => {
@@ -46,19 +49,17 @@ const resolvers = {
     },
 
     riders: async () => {
-      return await Rider.find({})
+      return await Rider.find({});
     },
 
     rider: async (parent, { riderId }) => {
-      console.log("finding rider")
-      const foundUser = await Rider.findOne({ _id: riderId })
-      console.log(foundUser)
-      if (foundUser) throw new Error('Email is already in use')
+      console.log("finding rider");
+      const foundRider = await Rider.findOne({ _id: riderId });
+      console.log(foundRider);
 
-      return foundUser;
+      return foundRider;
     },
   },
-
 
   Mutation: {
     createUser: async (parent, { username, email, password }) => {
@@ -83,41 +84,45 @@ const resolvers = {
       return { rider };
     },
 
-
-    bookLesson: async (parent, { lessonDate, startTime,  duration, timeSlot, rider, instructor, horse }) => {
+    bookLesson: async (
+      parent,
+      { lessonDate, startTime, duration, timeSlot, rider, instructor, horse }
+    ) => {
       const lesson = await Lesson.create({
-        lessonDate, startTime, duration,
-        timeSlot, rider, instructor, horse
+        lessonDate,
+        startTime,
+        duration,
+        timeSlot,
+        rider,
+        instructor,
+        horse,
       });
-      lesson.rider = await Rider.findOne({_id: rider._id });
-      lesson.instructor = await Instructor.findOne({_id: instructor._id});
-      lesson.horse = await Horse.findOne({_id: horse._id});
-            
-      console.log (lesson.horse)
-    //  console.log(lesson)
+      lesson.rider = await Rider.findOne({ _id: rider._id });
+      lesson.instructor = await Instructor.findOne({ _id: instructor._id });
+      lesson.horse = await Horse.findOne({ _id: horse._id });
+
+      console.log(lesson.horse);
+      //  console.log(lesson)
       return lesson;
     },
 
     login: async (parent, { email, password }) => {
-
       const user = await User.findOne({ email });
-      console.log("Hey-rro!  Login================")
+      console.log("Hey-rro!  Login================");
       if (!user) {
-        throw new AuthenticationError('No user with this email found!');
+        throw new AuthenticationError("No user with this email found!");
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw new AuthenticationError('Incorrect password!');
+        throw new AuthenticationError("Incorrect password!");
       }
-      console.log("getting token")
+      console.log("getting token");
       const token = signToken(user);
-      if (token)
-        console.log(token)
+      if (token) console.log(token);
       return { token, user };
     },
-
 
     addRidertoLesson: async (parent, { lessonId, rider }) => {
       return Lesson.findOneAndUpdate(
