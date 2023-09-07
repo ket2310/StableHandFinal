@@ -22,14 +22,17 @@ const resolvers = {
 
     //Added .populate in the lesson resolvers
     lesson: async (parent, { lessonId }) => {
-      return Lesson.findOne(ObjectId(lessonId)).populate("rider");
+      return Lesson.findOne(ObjectId(lessonId))
+      .populate('rider')
+      .populate('horse')
+      .populate('instructor')
     },
 
     lessons: async () => {
       return Lesson.find({})
-        .populate("rider")
-        .populate("instructor")
-        .populate("horse");
+      .populate('rider')
+      .populate('horse')
+      .populate('instructor')
     },
 
     instructors: async () => {
@@ -53,9 +56,9 @@ const resolvers = {
     },
 
     rider: async (parent, { riderId }) => {
-      console.log("finding rider");
-      const foundRider = await Rider.findOne({ _id: riderId });
-      console.log(foundRider);
+      console.log("finding rider")
+      const foundUser = await Rider.findOne({ _id: riderId })
+      console.log(foundUser)
 
       return foundRider;
     },
@@ -97,12 +100,12 @@ const resolvers = {
         instructor,
         horse,
       });
-      lesson.rider = await Rider.findOne({ _id: rider._id });
-      lesson.instructor = await Instructor.findOne({ _id: instructor._id });
-      lesson.horse = await Horse.findOne({ _id: horse._id });
-
-      console.log(lesson.horse);
-      //  console.log(lesson)
+      lesson.rider = await Rider.findOne({_id: rider._id });
+      lesson.instructor = await Instructor.findOne({_id: instructor._id});
+      lesson.horse = await Horse.findOne({_id: horse._id});
+            
+      console.log (lesson)
+    //  console.log(lesson)
       return lesson;
     },
 

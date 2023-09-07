@@ -28,7 +28,7 @@ export default function MainContainer(props) {
 
 
     return (
-        <div className="MyApp">
+        <div>
             <MyHeader currentPage={props.currPg} handlePageChange={handlePageChange} />            
             <main className="container container-fluid mt-5">
                 <header className="cd-main-header text-center flex flex-column flex-center">
