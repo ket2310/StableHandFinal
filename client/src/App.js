@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import MainContainer from './components/MainContainer';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink,} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 // Construct our main GraphQL API endpoint
@@ -42,7 +37,12 @@ function App() {
     <div>
       <ApolloProvider client={client}>
         <MainContainer
-          currentPg={currentPg} setPage={setPage} farmName={farmName} setFarm={setFarm} task={task} setTask={setTask}>
+          currentPg={currentPg} 
+          setPage={setPage} 
+          farmName={farmName} s
+          etFarm={setFarm} 
+          task={task} 
+          setTask={setTask}>
         </MainContainer>
       </ApolloProvider>
     </div>

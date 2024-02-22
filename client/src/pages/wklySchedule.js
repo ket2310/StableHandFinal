@@ -43,6 +43,7 @@ function WklySchedule() {
         var hour = tmp.substr(2);
 
         if (checkIfavailable(tmp) === "Available") {
+            alert(tmp + " is available.");
             setTimeForLesson(null);
             setTimeSlot(tmp);
             setDay(day);
@@ -56,9 +57,9 @@ function WklySchedule() {
             const lessonDay = tmp.substr(0, 2); // "Tu"
             const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString(); // "12052021"
             const ts = tmp + bookedDate.replace(/\//g, ""); // "Su0900 + 12052021"
-
+            console.log(ts)
             const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
-
+            
             if (lessonBooked) {
                 console.log('lessonbooked', lessonBooked);
                 setTimeForLesson(lessonBooked);
@@ -77,9 +78,12 @@ function WklySchedule() {
         const ts = id + bookedDate.replace(/\//g, ""); // "Su0900 + 12052021"
 
         const lessonBooked = lessons.find(lesson => lesson.timeSlot === ts);
+        
         availability = "Available";
         if (lessonBooked)
             availability = lessonBooked.rider.firstName + " " + lessonBooked.rider.lastName;
+        
+        
 
         return availability;
     }

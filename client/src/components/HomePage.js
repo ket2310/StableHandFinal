@@ -7,10 +7,8 @@ import StudentList from '../pages/studentList';
 function HomePage() {
     const [task, setTask] = useState('');
 
-    const handlePageChange = (page) => {
-        setTask(page)
-    }
-
+    const handlePageChange = (page) => setTask(page)
+    
     const goToTask = () => {
         if (task === 'schedule') {
             return (<LessonSchedule/>) //wklySchedule

@@ -17,7 +17,7 @@ function LessonForm(props) {
     const lessonDay = props.lessonDay;
 
     const bookedDate = findDateOfLesson(lessonDay, weekOfDate).toString();
-    console.log("Date: " + bookedDate)
+  
     const timeSlot = props.timeSlot + bookedDate.replace(/\//g, "");
  
     const startTime = props.lessonHour;
