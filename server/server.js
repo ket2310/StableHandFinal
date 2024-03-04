@@ -30,7 +30,7 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
-
+console.log("WAIT FOR IT...");
 const timestamp = moment().format('MMMM Do YYYY, h:mm:ss a');
 db.once('open', () => {
   app.listen(PORT, () => {

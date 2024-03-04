@@ -18,9 +18,10 @@
   "dependencies": {
     "@apollo/client": "^3.4.13",
     "apollo-server-express": "^3.3.0",
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "graphql": "^15.6.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "server": "file:server"
   }
 }

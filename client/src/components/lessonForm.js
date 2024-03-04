@@ -14,13 +14,13 @@ import convertHour from "../utils/convertHour";
 
 function LessonForm(props) {
   const [formData, setFormData] = useState({
-    lessonDate: "",
-    startTime: "",
-    duration: 1,
-    timeSlot: "",
-    rider: {},
-    instructor: {},
-    horse: {},
+    F_lessonDate: "",
+    F_startTime: "",
+    F_duration: 1,
+    F_timeSlot: "",
+    F_rider: {},
+    F_instructor: {},
+    F_horse: {},
   });
 
   const { lessonDay, timeSlot, weekOf, lessonHour: startTime } = props;
@@ -85,13 +85,13 @@ function LessonForm(props) {
       if (!loading) {
         props.setTrigger(false);
         setFormData({
-          lessonDate: "",
-          startTime: "",
-          duration: 1,
-          timeSlot: "",
-          rider: {},
-          instructor: {},
-          horse: {},
+          F_lessonDate: "",
+          F_startTime: "",
+          F_duration: 1,
+          F_timeSlot: "",
+          F_rider: {},
+          F_instructor: {},
+          F_horse: {},
         });
       }
     } catch (err) {
